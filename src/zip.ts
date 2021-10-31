@@ -3,6 +3,7 @@ import path from 'path';
 import AdmZip from 'adm-zip';
 
 export default function extractZip(
+  appName: string,
   zipFile: string | Buffer,
   outputDir: string,
   callback: (dirName: string) => void,
@@ -15,8 +16,13 @@ export default function extractZip(
   let pending = 0;
   const folderName = path.basename(entries[0].entryName);
 
-  const checkDone = (err?: Error) => {
+  const checkDone = (err?: Error, file?: string) => {
     if (err) this.emit('error', err);
+    if (file && /package.json$/.test(file)) {
+      const data = fs.readJSONSync(file);
+      data.name = appName;
+      fs.writeJSONSync(file, data, { spaces: 2 });
+    }
     pending += 1;
     if (pending === total) {
       callback(folderName);
@@ -27,6 +33,6 @@ export default function extractZip(
     if (entry.isDirectory) return checkDone();
 
     const file = path.resolve(outputDir, entry.entryName);
-    fs.outputFile(file, entry.getData(), checkDone);
+    fs.outputFile(file, entry.getData(), (err) => checkDone(err, file));
   })
 }

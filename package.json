@@ -1,15 +1,15 @@
 {
   "name": "create-mpl",
-  "version": "0.0.1",
-  "main": "dist/cli.mjs",
-  "module": "dist/cli.mjs",
-  "types": "dist/cli.d.ts",
+  "version": "0.0.2",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
   "author": "lencx <cxin1314@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "mpl": "esno src/cli.ts",
+    "mpl": "esno src/index.ts",
     "dev": "npm run build -- --watch",
-    "build": "tsup src/cli.ts --dts --minify --format esm",
+    "build": "tsup src/index.ts --dts --minify --format cjs,esm",
     "prepublishOnly": "npm run build",
     "release": "npx bumpp --push --tag --commit && npm publish"
   },
@@ -17,7 +17,7 @@
     "dist"
   ],
   "bin": {
-    "mpl": "dist/index.mjs"
+    "mpl": "bin/mpl.js"
   },
   "keywords": [
     "scaffold",
@@ -32,6 +32,10 @@
     "type": "git",
     "url": "https://github.com/lencx/create-mpl"
   },
+  "bugs": {
+    "url": "https://github.com/lencx/create-mpl/issues"
+  },
+  "homepage": "https://github.com/lencx/create-mpl/tree/main#readme",
   "devDependencies": {
     "@types/adm-zip": "^0.4.34",
     "@types/fs-extra": "^9.0.13",
@@ -48,9 +52,9 @@
     "adm-zip": "^0.5.9",
     "chalk": "^4.1.2",
     "fs-extra": "^10.0.0",
-    "ora": "^6.0.1",
     "prompts": "^2.4.2",
-    "request": "^2.88.2"
+    "request": "^2.88.2",
+    "spinnies": "^0.5.1"
   },
   "engines": {
     "node": ">=12.2.0"

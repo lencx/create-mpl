@@ -1,5 +1,3 @@
-#!/usr/bin/env node
-
 import path from 'path';
 import chalk from 'chalk';
 import fs from 'fs-extra';

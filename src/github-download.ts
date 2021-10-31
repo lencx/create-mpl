@@ -1,14 +1,16 @@
-import ora from 'ora';
+// import ora from 'ora';
+import Spinners from 'spinnies';
 import path from 'path';
 import fs from 'fs-extra';
 import chalk from 'chalk';
 import request from 'request';
+import { v4 } from 'uuid';
 import { EventEmitter } from 'events';
 
 import extractZip from './zip';
 import type { GithubDownloaderOptions } from './types';
 
-const downloadLoading = ora(`${chalk.gray`[mpl::download]`} ...`);
+const spinners = new Spinners();
 const cwd = process.cwd();
 
 export class GithubDownloader extends EventEmitter {
@@ -42,7 +44,7 @@ export class GithubDownloader extends EventEmitter {
   }
 
   requestJSON(url: string) {
-    downloadLoading.start();
+    spinners.add('cli', { text: `${chalk.gray`[mpl::download]`} ...`, color: 'white' });
     request({ url }, (err, resp) => {
       if (err) return this.emit('error', err);
       if (resp.statusCode === 403) return this.downloadZip();
@@ -61,7 +63,7 @@ export class GithubDownloader extends EventEmitter {
       if (err) this.emit('error', err)
       request.get(this.zipURL).pipe(
         fs.createWriteStream(zipFile)).on('close', () => {
-          extractZip.call(this, zipFile, tmpdir, (extractedFolderName: string) => {
+          extractZip.call(this, this.dir, zipFile, tmpdir, (extractedFolderName: string) => {
             const oldPath = path.join(tmpdir, extractedFolderName);
 
             fs.rename(oldPath, this.dir, (err) => {
@@ -70,7 +72,7 @@ export class GithubDownloader extends EventEmitter {
               fs.remove(tmpdir, (err) => {
                 if (err) this.emit('error', err);
                 console.log();
-                downloadLoading.succeed(`${chalk.gray`[mpl::template]`} ${this.owner}/${this.repo}\n`);
+                spinners.succeed('cli', { text: `${chalk.gray`[mpl::template]`} ${this.owner}/${this.repo}\n`, color: 'white' });
                 this.emit('end');
               });
             });
@@ -81,7 +83,7 @@ export class GithubDownloader extends EventEmitter {
   }
 
   generateTempDir(repo: string) {
-    return path.join(cwd, `${repo}-${Date.now().toString(16)}`);
+    return path.join(cwd, `${repo}-${v4()}`);
   }
 }
 
