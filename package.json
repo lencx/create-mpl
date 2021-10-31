@@ -1,0 +1,58 @@
+{
+  "name": "create-mpl",
+  "version": "0.0.1",
+  "main": "dist/cli.mjs",
+  "module": "dist/cli.mjs",
+  "types": "dist/cli.d.ts",
+  "author": "lencx <cxin1314@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "mpl": "esno src/cli.ts",
+    "dev": "npm run build -- --watch",
+    "build": "tsup src/cli.ts --dts --minify --format esm",
+    "prepublishOnly": "npm run build",
+    "release": "npx bumpp --push --tag --commit && npm publish"
+  },
+  "files": [
+    "dist"
+  ],
+  "bin": {
+    "mpl": "dist/index.mjs"
+  },
+  "keywords": [
+    "scaffold",
+    "template",
+    "mpl",
+    "vite",
+    "vue",
+    "react",
+    "umi"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lencx/create-mpl"
+  },
+  "devDependencies": {
+    "@types/adm-zip": "^0.4.34",
+    "@types/fs-extra": "^9.0.13",
+    "@types/minimist": "^1.2.2",
+    "@types/node": "^16.11.6",
+    "@types/prompts": "^2.0.14",
+    "@types/request": "^2.48.7",
+    "esno": "^0.10.1",
+    "minimist": "^1.2.5",
+    "tsup": "^5.5.0",
+    "typescript": "^4.4.4"
+  },
+  "dependencies": {
+    "adm-zip": "^0.5.9",
+    "chalk": "^4.1.2",
+    "fs-extra": "^10.0.0",
+    "ora": "^6.0.1",
+    "prompts": "^2.4.2",
+    "request": "^2.88.2"
+  },
+  "engines": {
+    "node": ">=12.2.0"
+  }
+}
