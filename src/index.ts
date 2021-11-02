@@ -4,16 +4,41 @@ import fs from 'fs-extra';
 import prompts from 'prompts';
 import minimist from 'minimist';
 import { spawnSync } from 'child_process';
+import pkgJSON from '../package.json';
 
 import ghdownload from './github-download';
+import { aboutScaffold } from './about';
 
 const argv = minimist(process.argv.slice(2));
 const cwd = process.cwd();
 
+const SCAFFOLD_LIST = ['vite', 'cra', 'umi', 'vue', 'svelte', 'angular', 'github'];
+
 async function init() {
   let targetDir = argv._[0];
+  let _scaffold = argv._[1];
   const defaultProjectName = !targetDir ? 'mpl-project' : targetDir;
   let result: Record<string, string> = {};
+
+  const help = argv.h || argv.help;
+  const version = argv.v || argv.version;
+
+  if (version) {
+    console.log(pkgJSON.version);
+    return;
+  }
+
+  if (help) {
+    console.log(`mpl <command>
+https://github.com/lencx/create-mpl
+
+Usage:
+mpl [project-name] [scaffold]
+    -h, --help          quick help on <command>
+    -v, --version       output the version number
+`);
+    return;
+  }
 
   try {
     result = await prompts([
@@ -43,25 +68,32 @@ async function init() {
         name: 'overwriteChecker'
       },
       {
-        type: 'select',
+        type: SCAFFOLD_LIST.includes(_scaffold) ? null : 'select',
         name: 'scaffold',
-        message: 'Select a scaffold:',
+        message: () => {
+          if (!_scaffold) return 'Select a scaffold:'
+          return SCAFFOLD_LIST.includes(_scaffold)
+            ? null
+            : `${chalk.red(_scaffold)} is invalid, currently supports: \n`;
+        },
         initial: 0,
         choices: [
           // npm init vite@latest my-app
           { title: 'Vite', value: 'vite' },
           // npx create-react-app my-app
-          { title: 'Create React App', value: 'cra' },
+          { title: 'React', value: 'cra' },
           // mkdir my-app && cd my-app
           // npx @umijs/create-umi-app
           { title: 'UmiJS', value: 'umi' },
           // npx @vue/cli create my-app
-          { title: 'Vue', value: 'vue' },
+          { title: 'Vue.js', value: 'vue' },
           // npx degit sveltejs/template my-svelte-project
           { title: 'Svelte', value: 'svelte' },
+          // npx @angular/cli new my-app
+          { title: 'Angular', value: 'angular' },
           // custom: mpl-template-*
           { title: 'GitHub Template', value: 'github' },
-        ]
+        ],
       },
     ], {
       onCancel: () => {
@@ -73,9 +105,10 @@ async function init() {
     return;
   }
 
-  const { projectName, scaffold } = result;
-  const npxArgs = [];
+  const { projectName, scaffold: _scaffold2 } = result;
+  const scaffold = _scaffold2 || _scaffold;
   const appName = projectName || targetDir;
+  const npxArgs = [];
 
   if (scaffold === 'vite') {
     npxArgs.push('init vite@latest', appName);
@@ -83,10 +116,8 @@ async function init() {
   }
 
   if (scaffold === 'vue') {
-    console.log();
-    console.log(`$ ${chalk.green`npm install -g @vue/cli`}`);
-    console.log(`$ ${chalk.green(`vue create ` + appName)}`);
-    console.log();
+    npxArgs.push('@vue/cli create', appName);
+    spawnSync('npx', npxArgs, { shell: true, cwd, stdio: 'inherit' });
   }
 
   if (scaffold === 'umi') {
@@ -94,6 +125,7 @@ async function init() {
     const appPath = path.join(process.cwd(), appName);
     fs.mkdirs(appPath);
     spawnSync('npx', npxArgs, { shell: true, cwd: appPath, stdio: 'inherit' });
+    console.log(`\n$ ${chalk.green(`cd ` + appName)}\n`);
   }
 
   if (scaffold === 'cra') {
@@ -105,6 +137,12 @@ async function init() {
   if (scaffold === 'svelte') {
     npxArgs.push('degit sveltejs/template', appName);
     spawnSync('npx', npxArgs, { shell: true, cwd, stdio: 'inherit' });
+  }
+
+  if (scaffold === 'angular') {
+    npxArgs.push('@angular/cli new', appName);
+    spawnSync('npx', npxArgs, { shell: true, cwd, stdio: 'inherit' });
+    console.log(`\n$ ${chalk.green(`cd ` + appName)}\n`);
   }
 
   if (scaffold === 'github') {
@@ -149,9 +187,14 @@ async function init() {
         })
         .on('end', () => {
           console.log(`$ ${chalk.green(`cd ` + appName)}\n`);
+          aboutScaffold(scaffold);
         });
+
+      return;
     }
   }
+
+  aboutScaffold(scaffold);
 }
 
 init()

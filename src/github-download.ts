@@ -1,9 +1,8 @@
-// import ora from 'ora';
-import Spinners from 'spinnies';
 import path from 'path';
 import fs from 'fs-extra';
 import chalk from 'chalk';
 import request from 'request';
+import Spinners from 'spinnies';
 import { v4 } from 'uuid';
 import { EventEmitter } from 'events';
 
@@ -34,11 +33,11 @@ export class GithubDownloader extends EventEmitter {
   }
 
   start() {
-    const target = path.join(process.cwd(), this.dir);
-    if (fs.existsSync(target)) {
-      console.log(`\n${chalk.yellow`[mpl::warn]`} ${chalk.green(target)} already exists.\n`);
-      process.exit();
-    }
+    // const target = path.join(process.cwd(), this.dir);
+    // if (fs.existsSync(target)) {
+    //   console.log(`\n${chalk.yellow`[mpl::warn]`} ${chalk.green(target)} already exists.\n`);
+    //   process.exit();
+    // }
     this.requestJSON(this.initURL + this.initRef);
     return this;
   }
@@ -63,20 +62,27 @@ export class GithubDownloader extends EventEmitter {
       if (err) this.emit('error', err)
       request.get(this.zipURL).pipe(
         fs.createWriteStream(zipFile)).on('close', () => {
-          extractZip.call(this, this.dir, zipFile, tmpdir, (extractedFolderName: string) => {
-            const oldPath = path.join(tmpdir, extractedFolderName);
+          try {
+            extractZip.call(this, this.dir, zipFile, tmpdir, (extractedFolderName: string) => {
+              const oldPath = path.join(tmpdir, extractedFolderName);
 
-            fs.rename(oldPath, this.dir, (err) => {
-              if (err) this.emit('error', err);
-
-              fs.remove(tmpdir, (err) => {
+              fs.rename(oldPath, this.dir, (err) => {
                 if (err) this.emit('error', err);
-                console.log();
-                spinners.succeed('cli', { text: `${chalk.gray`[mpl::template]`} ${this.owner}/${this.repo}\n`, color: 'white' });
-                this.emit('end');
+
+                fs.remove(tmpdir, (err) => {
+                  if (err) this.emit('error', err);
+                  console.log();
+                  spinners.succeed('cli', { text: `${chalk.gray`[mpl::template]`} ${this.owner}/${this.repo}\n`, color: 'white' });
+                  this.emit('end');
+                });
               });
-            });
-          })
+            })
+          } catch (e) {
+            spinners.fail('cli', { text: fs.readFileSync(zipFile), color: 'white' });
+            console.log(chalk.red`\n[mpl::invalid]:`, chalk.blue`https://github.com/${this.owner}/${this.repo}/tree/${this.ref}\n`);
+            fs.removeSync(tmpdir);
+            process.exit(1);
+          }
         }
       )
     })
