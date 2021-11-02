@@ -20,25 +20,7 @@ async function init() {
   const defaultProjectName = !targetDir ? 'mpl-project' : targetDir;
   let result: Record<string, string> = {};
 
-  const help = argv.h || argv.help;
-  const version = argv.v || argv.version;
-
-  if (version) {
-    console.log(pkgJSON.version);
-    return;
-  }
-
-  if (help) {
-    console.log(`mpl <command>
-https://github.com/lencx/create-mpl
-
-Usage:
-mpl [project-name] [scaffold]
-    -h, --help          quick help on <command>
-    -v, --version       output the version number
-`);
-    return;
-  }
+  console.log('⚡️' + chalk.gray(`v${pkgJSON.version}`));
 
   try {
     result = await prompts([

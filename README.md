@@ -11,12 +11,6 @@ npm init mpl
 # or
 # scaffold: vite, cra, umi, vue, svelte, angular, github
 npm init mpl my-app [scaffold]
-
-# help
-npm init mpl -h
-
-# version
-npm init mpl -v
 ```
 
 ## Scaffold
