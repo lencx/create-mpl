@@ -43,11 +43,11 @@ async function init() {
       {
         type: 'select',
         name: 'type',
-        message: 'Select an application type:',
+        message: 'Select an application types:',
         initial: 0,
         choices: [
-          { title: 'Web', value: 'web' },
-          { title: 'Cross Platform', value: 'cross' },
+          { title: 'Web App', value: 'web' },
+          { title: 'Mini Program', value: 'mini' },
           { title: 'Extension', value: 'ext' },
           // custom: mpl-template-*
           { title: 'GitHub Template', value: 'github' },
@@ -62,7 +62,7 @@ async function init() {
   const { projectName, type } = result;
   const appName = projectName || targetDir;
 
-  if (['web', 'cross', 'ext', 'github'].includes(type)) {
+  if (['web', 'mini', 'ext', 'github'].includes(type)) {
     require(`./mpl/${type}`).default(appName);
   }
 }

@@ -33,7 +33,6 @@ export default async function(appName: string) {
   ]);
 
   const { scaffold } = result;
-  const npxArgs = [];
 
   if (scaffold === 'vite') {
     mplCmd(['init vite@latest', appName], { cmd: 'npm' });
@@ -44,20 +43,19 @@ export default async function(appName: string) {
   }
 
   if (scaffold === 'umi') {
-    npxArgs.push('@umijs/create-umi-app', appName);
     const appPath = path.join(process.cwd(), appName);
     fs.mkdirs(appPath);
     mplCmd(['@umijs/create-umi-app', appName], { cwd: appPath });
-    console.log(`\n$ ${chalk.green`cd`} ${appName}`);
+    console.log(`\n${chalk.gray`$`} ${chalk.green`cd`} ${appName}`);
     const _pkgManager = pkgManager();
     switch (_pkgManager) {
       case 'yarn':
-        console.log(`$ ${chalk.green`yarn`}`);
-        console.log(`$ ${chalk.green`yarn`} start`);
+        console.log(`${chalk.gray`$`} ${chalk.green`yarn`}`);
+        console.log(`${chalk.gray`$`} ${chalk.green`yarn`} start`);
         break;
       default:
-        console.log(`$ ${chalk.green(_pkgManager)} install`)
-        console.log(`$ ${chalk.green(_pkgManager)} run start`)
+        console.log(`${chalk.gray`$`} ${chalk.green(_pkgManager)} install`)
+        console.log(`${chalk.gray`$`} ${chalk.green(_pkgManager)} run start`)
         break;
     }
   }
