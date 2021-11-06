@@ -1,7 +1,7 @@
 import chalk from 'chalk';
 
-import { mplPrompts } from '../utils';
 import ghdownload from '../download';
+import { mplPrompts } from '../utils';
 import { aboutScaffold } from '../about';
 
 export default async function(appName: string) {

@@ -2,8 +2,8 @@ import path from 'path';
 import chalk from 'chalk';
 import fs from 'fs-extra';
 
-import { mplPrompts, mplCmd } from '../utils';
 import { aboutScaffold } from '../about';
+import { mplPrompts, mplCmd, pkgManager } from '../utils';
 
 // const SCAFFOLD_LIST = ['vite', 'cra', 'umi', 'vue', 'svelte', 'angular', 'github'];
 
@@ -48,7 +48,18 @@ export default async function(appName: string) {
     const appPath = path.join(process.cwd(), appName);
     fs.mkdirs(appPath);
     mplCmd(['@umijs/create-umi-app', appName], { cwd: appPath });
-    console.log(`\n$ ${chalk.green(`cd ` + appName)}\n`);
+    console.log(`\n$ ${chalk.green`cd`} ${appName}`);
+    const _pkgManager = pkgManager();
+    switch (_pkgManager) {
+      case 'yarn':
+        console.log(`$ ${chalk.green`yarn`}`);
+        console.log(`$ ${chalk.green`yarn`} start`);
+        break;
+      default:
+        console.log(`$ ${chalk.green(_pkgManager)} install`)
+        console.log(`$ ${chalk.green(_pkgManager)} run start`)
+        break;
+    }
   }
 
   if (scaffold === 'cra') {
