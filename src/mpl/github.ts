@@ -4,7 +4,7 @@ import ghdownload from '../download';
 import { mplPrompts } from '../utils';
 import { aboutScaffold } from '../about';
 
-export default async function(appName: string) {
+export default async function mplGithub(appName: string) {
   const result = await mplPrompts([
     {
       type: 'text',

@@ -7,7 +7,7 @@ import { mplPrompts, mplCmd, pkgManager } from '../utils';
 
 // const SCAFFOLD_LIST = ['vite', 'cra', 'umi', 'vue', 'svelte', 'angular', 'github'];
 
-export default async function(appName: string) {
+export default async function mplWeb(appName: string) {
   const result = await mplPrompts([
     {
       type: 'select',

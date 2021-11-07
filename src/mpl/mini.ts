@@ -1,7 +1,7 @@
 import { aboutScaffold } from '../about';
 import { mplPrompts, mplCmd } from '../utils';
 
-export default async function(appName: string) {
+export default async function mplMini(appName: string) {
   const result = await mplPrompts([
     {
       type: 'select',

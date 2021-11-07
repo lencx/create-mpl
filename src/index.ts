@@ -70,13 +70,7 @@ async function init() {
   }
 }
 
-async function cli() {
-  try {
-    await init();
-  } catch (e) {
+init()
+  .catch((e) => {
     console.error(e);
-    process.exit(1);
-  }
-}
-
-if (require.main === module) cli();
+  });

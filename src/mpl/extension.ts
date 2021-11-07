@@ -5,7 +5,7 @@ import ghdownload from '../download';
 import { mplPrompts, mplCmd } from '../utils';
 import { aboutScaffold } from '../about';
 
-export default async function(appName: string) {
+export default async function mplExtension(appName: string) {
   const result = await mplPrompts([
     {
       type: 'select',

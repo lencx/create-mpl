@@ -1,6 +1,6 @@
 {
   "name": "create-mpl",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "⚡️ Create a project in seconds!",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -10,7 +10,7 @@
   "scripts": {
     "mpl": "esno src/index.ts",
     "dev": "npm run build -- --watch",
-    "build": "tsup src/index.ts --dts --minify --format cjs,esm",
+    "build": "tsup --dts --minify --format cjs,esm",
     "prepublishOnly": "npm run build",
     "release": "npx bumpp --push --tag --commit && npm publish"
   },
@@ -48,6 +48,7 @@
     "@types/prompts": "^2.0.14",
     "@types/request": "^2.48.7",
     "esno": "^0.10.1",
+    "fast-glob": "^3.2.7",
     "minimist": "^1.2.5",
     "tsup": "^5.5.0",
     "typescript": "^4.4.4"

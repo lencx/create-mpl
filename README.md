@@ -47,3 +47,9 @@ $ cd my-app
   - `Chrome` - chrome
 - `GitHub Template (Custom)` - github
 - ... - (TODO)
+
+## FAQ
+
+[mpl FAQ](https://github.com/lencx/create-mpl/issues/4) - Encountered an unknown error, please try again after clearing the cache.
+
+`rm -rf $(npm get cache)/_npx/*`
