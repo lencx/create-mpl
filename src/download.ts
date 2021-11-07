@@ -17,16 +17,18 @@ export class GithubDownloader extends EventEmitter {
   public repo: string;
   public ref: string;
   public dir: string;
+  public overwrite: Function;
   private initURL: string;
   private initRef: string;
   private zipURL: string;
 
-  constructor({ owner, repo, ref, dir }: GithubDownloaderOptions) {
+  constructor({ owner, repo, ref, dir, overwrite }: GithubDownloaderOptions) {
     super();
     this.owner = owner;
     this.repo = repo;
     this.ref = ref || 'master';
     this.dir = dir;
+    this.overwrite = overwrite;
     this.initRef = this.ref ? `?ref=${this.ref}` : '';
     this.initURL = `https://api.github.com/repos/${this.owner}/${this.repo}/contents/`;
     this.zipURL = `https://nodeload.github.com/${this.owner}/${this.repo}/zip/${this.ref}`;
@@ -63,7 +65,7 @@ export class GithubDownloader extends EventEmitter {
       request.get(this.zipURL).pipe(
         fs.createWriteStream(zipFile)).on('close', () => {
           try {
-            extractZip.call(this, this.dir, zipFile, tmpdir, (extractedFolderName: string) => {
+            extractZip.call(this, this.dir, this.overwrite, zipFile, tmpdir, (extractedFolderName: string) => {
               const oldPath = path.join(tmpdir, extractedFolderName);
 
               fs.rename(oldPath, this.dir, (err) => {
@@ -101,6 +103,7 @@ export default function GithubDownload(options: GithubDownloaderOptions) {
 
 export function extractZip(
   appName: string,
+  overwrite: Function,
   zipFile: string | Buffer,
   outputDir: string,
   callback: (dirName: string) => void,
@@ -117,12 +120,15 @@ export function extractZip(
 
     if (file) {
       // nodejs
-      if (/package.json$/.test(file)) {
+      if (/\/package.json$/.test(file)) {
         const data = fs.readJSONSync(file);
         data.name = appName;
         fs.writeJSONSync(file, data, { spaces: 2 });
       }
-      // TODO: other ...
+      // overwrite file
+      if (overwrite) {
+        overwrite(file);
+      }
     }
 
     pending += 1;

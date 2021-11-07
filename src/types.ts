@@ -1,8 +1,9 @@
 export type GithubDownloaderOptions = {
   owner: string;
   repo: string;
-  ref: string;
   dir: string;
+  ref: string;
+  overwrite?: Function;
 };
 
 export type ScaffoldInfo = Record<string, {
