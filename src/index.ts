@@ -6,6 +6,15 @@ import { mplPrompts, isEmpty, isExist } from './utils';
 
 const argv = minimist(process.argv.slice(2));
 
+const appTypes = [
+  { title: 'Web App', value: 'web' },
+  { title: 'Mini Program', value: 'mini' },
+  { title: 'Extension', value: 'extension' },
+  { title: 'Electron', value: 'electron' },
+  // custom: mpl-template-*
+  { title: 'GitHub Template', value: 'github' },
+];
+
 async function init() {
   let targetDir = argv._[0];
   const defaultProjectName = !targetDir ? 'mpl-project' : targetDir;
@@ -45,13 +54,7 @@ async function init() {
         name: 'type',
         message: 'Select an application types:',
         initial: 0,
-        choices: [
-          { title: 'Web App', value: 'web' },
-          { title: 'Mini Program', value: 'mini' },
-          { title: 'Extension', value: 'ext' },
-          // custom: mpl-template-*
-          { title: 'GitHub Template', value: 'github' },
-        ],
+        choices: appTypes,
       },
     ])
   } catch(e) {
@@ -62,12 +65,18 @@ async function init() {
   const { projectName, type } = result;
   const appName = projectName || targetDir;
 
-  if (['web', 'mini', 'ext', 'github'].includes(type)) {
+  if (appTypes.map(i => i.value).includes(type)) {
     require(`./mpl/${type}`).default(appName);
   }
 }
 
-init()
-  .catch((e) => {
+async function cli() {
+  try {
+    await init();
+  } catch (e) {
     console.error(e);
-  });
+    process.exit(1);
+  }
+}
+
+if (require.main === module) cli();

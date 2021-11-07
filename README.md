@@ -21,6 +21,10 @@ npm init mpl
   - `Taro` - taro
   - `uni-app` - uni
   <!-- - `Kbone` - kbone -->
-- `Extension` - ext
+- `Electron` - electron
+  - `Electron Quick Start` - electron-quick-start
+  - `Electron Quick Start (TypeScript)` - electron-quick-start-typescript
+- `Extension` - extension
+  - `Visual Studio Code` - vscode
 - `GitHub Template (Custom)` - github
 - ... - (TODO)

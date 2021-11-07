@@ -5,7 +5,7 @@ import { mplPrompts } from '../utils';
 import { aboutScaffold } from '../about';
 
 export default async function(appName: string) {
-  const templateResult = await mplPrompts([
+  const result = await mplPrompts([
     {
       type: 'text',
       name: 'owner',
@@ -30,18 +30,18 @@ export default async function(appName: string) {
     },
   ]);
 
-  if (templateResult.owner && templateResult.repo) {
+  if (result.owner && result.repo) {
     ghdownload({
-      owner: templateResult.owner,
-      repo: templateResult.repo,
-      ref: templateResult.branch,
+      owner: result.owner,
+      repo: result.repo,
+      ref: result.branch,
       dir: appName,
     })
       .on('error', (err) => {
         console.log(`${chalk.red`[mpl::error]`}\n${err}`)
       })
       .on('end', () => {
-        console.log(`$ ${chalk.green(`cd ` + appName)}\n`);
+        console.log(`${chalk.gray`$`} ${chalk.green`cd`} ${appName}\n`);
         aboutScaffold('github');
       });
   }

@@ -57,6 +57,17 @@ export const scaffoldInfos = {
     link: 'https://github.com/Tencent/kbone',
     description: '一个致力于微信小程序和 Web 端同构的解决方案',
   },
+  // --- electron
+  'electron-quick-start': {
+    title: 'electron-quick-start',
+    link: 'https://github.com/electron/electron-quick-start',
+    description: 'Clone to try a simple Electron app',
+  },
+  'electron-quick-start-typescript': {
+    title: 'electron-quick-start',
+    link: 'https://github.com/electron/electron-quick-start-typescript',
+    description: 'Clone to try a simple Electron app (in TypeScript)',
+  },
 } as ScaffoldInfo;
 
 export function aboutScaffold(type: string) {
