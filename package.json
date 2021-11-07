@@ -1,6 +1,7 @@
 {
   "name": "create-mpl",
   "version": "0.1.1",
+  "description": "⚡️ Create a project in seconds!",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
@@ -27,7 +28,9 @@
     "vite",
     "vue",
     "react",
-    "umi"
+    "umi",
+    "miniprogram",
+    "extension"
   ],
   "repository": {
     "type": "git",
