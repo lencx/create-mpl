@@ -9,6 +9,7 @@ const argv = minimist(process.argv.slice(2));
 const appTypes = [
   { title: 'Web App', value: 'web' },
   { title: 'Mini Program', value: 'mini' },
+  { title: 'WebAssembly', value: 'wasm' },
   { title: 'Extension', value: 'extension' },
   { title: 'Electron', value: 'electron' },
   // custom: mpl-template-*

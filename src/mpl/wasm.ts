@@ -12,19 +12,31 @@ export default async function mplElectron(appName: string) {
       message: 'Select a scaffold:',
       initial: 0,
       choices: [
-        { title: 'Electron Quick Start', value: 'electron-quick-start' },
-        { title: 'Electron Quick Start (TypeScript)', value: 'electron-quick-start-typescript' },
+        { title: 'wasm-react', value: 'vite-rsw-wasm-template/wasm-react' },
+        { title: 'wasm-vue', value: 'vite-rsw-wasm-template/wasm-vue' },
       ],
     },
   ]);
 
   const { repo } =  result;
+  const _repo = repo.split('/');
 
   dgh({
-    owner: 'electron',
-    repo: repo,
+    owner: 'metahot',
+    repo: _repo[0],
+    ref: 'main',
     name: appName,
+    subdir: _repo[1],
   })
+    .on('overwrite', (files, fs) => {
+      files.forEach((file: string) => {
+        if (/\/package.json$/.test(file)) {
+          const data = fs.readJSONSync(file);
+          data.name = appName;
+          fs.writeJSONSync(file, data, { spaces: 2 });
+        }
+      });
+    })
     .on('end', () => {
       console.log(`\n${chalk.gray`$`} ${chalk.green`cd`} ${appName}`);
       aboutScaffold(repo);

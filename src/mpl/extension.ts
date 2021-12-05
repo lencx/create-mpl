@@ -1,7 +1,6 @@
+import dgh from 'dgh';
 import chalk from 'chalk';
-import fs from 'fs-extra';
 
-import ghdownload from '../download';
 import { mplPrompts, mplCmd } from '../utils';
 import { aboutScaffold } from '../about';
 
@@ -29,30 +28,27 @@ export default async function mplExtension(appName: string) {
       'yo code',
       appName,
     ]);
+    aboutScaffold(scaffold);
   }
 
   if (scaffold === 'chrome') {
-    ghdownload({
+    dgh({
       owner: 'metahot',
       repo: 'chrome-extension-quick-start',
-      ref: 'main',
-      dir: appName,
-      overwrite: (file: string) => {
-        if (/\/manifest.json$/.test(file)) {
-          const data = fs.readJSONSync(file);
-          data.name = appName;
-          fs.writeJSONSync(file, data, { spaces: 2 });
-        }
-      },
+      name: appName,
     })
-      .on('error', (err) => {
-        console.log(`${chalk.red`[mpl::error]`}\n${err}`)
+      .on('overwrite', (files, fs) => {
+        files.forEach((file: string) => {
+          if (/\/manifest.json$/.test(file)) {
+            const data = fs.readJSONSync(file);
+            data.name = appName;
+            fs.writeJSONSync(file, data, { spaces: 2 });
+          }
+        })
       })
       .on('end', () => {
-        console.log(`${chalk.gray`$`} ${chalk.green`cd`} ${appName}\n`);
+        console.log(`\n${chalk.gray`$`} ${chalk.green`cd`} ${appName}`);
         aboutScaffold(scaffold);
       });
   }
-
-  aboutScaffold(scaffold);
 }

@@ -20,8 +20,7 @@ Check out [awesome/mpl](https://github.com/lencx/awesome/blob/main/mpl.md) - you
 ✔ github owner: … <owner>
 ✔ github repo: … <repo>
 ✔ repo branch: … <branch>
-⠋ [mpl::download] ...
-✓ [mpl::template] <owner>/<repo>
+[dgh::download] <owner>/<repo>:<branch> /<your_path>/my-app
 
 $ cd my-app
 ```
@@ -29,12 +28,14 @@ $ cd my-app
 ## Application Types
 
 - `Web App` - web
+  - `Remix` - remix
   - `Vite` - vite
   - `React` - cra
   - `UmiJS` - umi
   - `Vue.js` - vue
   - `Svelte` - svelte
   - `Angular` - angular
+- `WebAssembly` - wasm
 - `Mini Program` - mini
   - `Taro` - taro
   - `uni-app` - uni
@@ -53,3 +54,7 @@ $ cd my-app
 [mpl FAQ](https://github.com/lencx/create-mpl/issues/4) - Encountered an unknown error, please try again after clearing the cache.
 
 `rm -rf $(npm get cache)/_npx/*`
+
+## Related
+
+- [download-github](https://github.com/lencx/download-github) - ⬇️ Download directory from a GitHub repo.

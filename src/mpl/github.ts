@@ -1,6 +1,6 @@
+import dgh from 'dgh';
 import chalk from 'chalk';
 
-import ghdownload from '../download';
 import { mplPrompts } from '../utils';
 import { aboutScaffold } from '../about';
 
@@ -25,23 +25,20 @@ export default async function mplGithub(appName: string) {
       type: 'text',
       name: 'branch',
       message: 'repo branch:',
-      initial: 'master',
+      initial: 'HEAD',
       onState: (state) => state.value.trim(),
     },
   ]);
 
   if (result.owner && result.repo) {
-    ghdownload({
+    dgh({
       owner: result.owner,
       repo: result.repo,
       ref: result.branch,
-      dir: appName,
+      name: appName,
     })
-      .on('error', (err) => {
-        console.log(`${chalk.red`[mpl::error]`}\n${err}`)
-      })
       .on('end', () => {
-        console.log(`${chalk.gray`$`} ${chalk.green`cd`} ${appName}\n`);
+        console.log(`\n${chalk.gray`$`} ${chalk.green`cd`} ${appName}`);
         aboutScaffold('github');
       });
   }

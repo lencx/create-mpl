@@ -5,8 +5,6 @@ import fs from 'fs-extra';
 import { aboutScaffold } from '../about';
 import { mplPrompts, mplCmd, pkgManager } from '../utils';
 
-// const SCAFFOLD_LIST = ['vite', 'cra', 'umi', 'vue', 'svelte', 'angular', 'github'];
-
 export default async function mplWeb(appName: string) {
   const result = await mplPrompts([
     {
@@ -15,6 +13,8 @@ export default async function mplWeb(appName: string) {
       message: () => 'Select a scaffold:',
       initial: 0,
       choices: [
+        // npx create-remix@latest
+        { title: 'Remix', value: 'remix' },
         // npm init vite@latest my-app
         { title: 'Vite', value: 'vite' },
         // npx create-react-app my-app
@@ -33,6 +33,10 @@ export default async function mplWeb(appName: string) {
   ]);
 
   const { scaffold } = result;
+
+  if (scaffold === 'remix') {
+    mplCmd(['create-remix@latest', appName]);
+  }
 
   if (scaffold === 'vite') {
     mplCmd(['init vite@latest', appName], { cmd: 'npm' });

@@ -1,6 +1,6 @@
 {
   "name": "create-mpl",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "⚡️ Create a project in seconds!",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -24,7 +24,9 @@
   "keywords": [
     "scaffold",
     "template",
+    "app",
     "mpl",
+    "remix",
     "vite",
     "vue",
     "react",
@@ -41,25 +43,21 @@
   },
   "homepage": "https://github.com/lencx/create-mpl/tree/main#readme",
   "devDependencies": {
-    "@types/adm-zip": "^0.4.34",
     "@types/fs-extra": "^9.0.13",
     "@types/minimist": "^1.2.2",
     "@types/node": "^16.11.6",
     "@types/prompts": "^2.0.14",
-    "@types/request": "^2.48.7",
-    "esno": "^0.10.1",
+    "esno": "^0.12.1",
     "fast-glob": "^3.2.7",
-    "minimist": "^1.2.5",
-    "tsup": "^5.5.0",
-    "typescript": "^4.4.4"
+    "tsup": "^5.10.1",
+    "typescript": "^4.5.2"
   },
   "dependencies": {
-    "adm-zip": "^0.5.9",
     "chalk": "^4.1.2",
+    "dgh": "^0.2.1",
     "fs-extra": "^10.0.0",
-    "prompts": "^2.4.2",
-    "request": "^2.88.2",
-    "spinnies": "^0.5.1"
+    "minimist": "^1.2.5",
+    "prompts": "^2.4.2"
   },
   "engines": {
     "node": ">=12.2.0"
