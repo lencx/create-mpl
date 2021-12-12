@@ -2,6 +2,8 @@
 
 Create a project in seconds!
 
+[![asciicast](https://asciinema.org/a/455622.svg)](https://asciinema.org/a/455622)
+
 ## Usage
 
 With NPM:
