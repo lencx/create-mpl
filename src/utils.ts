@@ -8,7 +8,8 @@ const root = process.cwd();
 
 export const mplPrompts = async (options: Array<prompts.PromptObject>) => await prompts(options, {
   onCancel: () => {
-    throw new Error(chalk.red`✖` + ' Operation cancelled')
+    console.log(chalk.red`✖` + ' Operation cancelled');
+    process.exit(1);
   }
 });
 

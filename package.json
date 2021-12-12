@@ -1,6 +1,6 @@
 {
   "name": "create-mpl",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "⚡️ Create a project in seconds!",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
