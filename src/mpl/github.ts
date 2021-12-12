@@ -28,18 +28,28 @@ export default async function mplGithub(appName: string) {
       initial: 'HEAD',
       onState: (state) => state.value.trim(),
     },
+    {
+      type: 'text',
+      name: 'subdir',
+      message: 'sub dir:',
+      initial: '/',
+      onState: (state) => state.value.trim(),
+    },
   ]);
 
   if (result.owner && result.repo) {
+    const subdir = result.subdir.split(/^\//)[1] || '';
+
     dgh({
       owner: result.owner,
       repo: result.repo,
       ref: result.branch,
       name: appName,
+      subdir,
     })
       .on('end', () => {
         console.log(`\n${chalk.gray`$`} ${chalk.green`cd`} ${appName}`);
-        aboutScaffold('github');
+        aboutScaffold(appName, 'github');
       });
   }
 }

@@ -28,7 +28,7 @@ export default async function mplExtension(appName: string) {
       'yo code',
       appName,
     ]);
-    aboutScaffold(scaffold);
+    aboutScaffold(appName, scaffold);
   }
 
   if (scaffold === 'chrome') {
@@ -48,7 +48,7 @@ export default async function mplExtension(appName: string) {
       })
       .on('end', () => {
         console.log(`\n${chalk.gray`$`} ${chalk.green`cd`} ${appName}`);
-        aboutScaffold(scaffold);
+        aboutScaffold(appName, scaffold);
       });
   }
 }

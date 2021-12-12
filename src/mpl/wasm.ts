@@ -39,6 +39,6 @@ export default async function mplElectron(appName: string) {
     })
     .on('end', () => {
       console.log(`\n${chalk.gray`$`} ${chalk.green`cd`} ${appName}`);
-      aboutScaffold(repo);
+      aboutScaffold(appName, 'wasm');
     });
 }

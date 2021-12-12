@@ -18,7 +18,9 @@ const appTypes = [
 
 async function init() {
   let targetDir = argv._[0];
+  let mplType = argv.type || argv.t;
   const defaultProjectName = !targetDir ? 'mpl-project' : targetDir;
+  const hasType = appTypes.map(i => i.value).includes(mplType);
   let result: Record<string, string> = {};
 
   console.log('⚡️' + chalk.gray(`v${pkgJSON.version}`));
@@ -51,11 +53,12 @@ async function init() {
         name: 'overwriteChecker'
       },
       {
-        type: 'select',
+        type: hasType ? null : 'select',
         name: 'type',
         message: 'Select an application types:',
         initial: 0,
         choices: appTypes,
+        onState: (state) => (mplType = state.value),
       },
     ])
   } catch(e) {
@@ -65,9 +68,10 @@ async function init() {
 
   const { projectName, type } = result;
   const appName = projectName || targetDir;
+  const appType = type || mplType;
 
-  if (appTypes.map(i => i.value).includes(type)) {
-    require(`./mpl/${type}`).default(appName);
+  if (appTypes.map(i => i.value).includes(appType)) {
+    require(`./mpl/${appType}`).default(appName);
   }
 }
 

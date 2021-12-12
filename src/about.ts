@@ -1,14 +1,15 @@
 
 import chalk from 'chalk';
 
+import { checkNodeModules } from './utils';
 import type { ScaffoldInfo } from './types';
 
 export const scaffoldInfos = {
   // --- GitHub Template ---
   github: {
-    title: 'Template',
-    link: 'https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-template-repository',
-    description: 'Custom template based on github repository.',
+    title: 'mpl template',
+    link: 'https://github.com/lencx/awesome/blob/main/mpl.md',
+    description: 'Awesome mpl template.',
   },
 
   // --- Web App ---
@@ -88,9 +89,18 @@ export const scaffoldInfos = {
     link: 'https://github.com/metahot/chrome-extension-quick-start',
     description: 'Clone to try a simple chrome extension',
   },
+
+  // --- WebAssembly ---
+  wasm: {
+    title: 'WebAssembly',
+    link: 'https://webassembly.org/',
+    description: 'WebAssembly (abbreviated Wasm) is a binary instruction format for a stack-based virtual machine. Wasm is designed as a portable compilation target for programming languages, enabling deployment on the web for client and server applications.',
+  }
 } as ScaffoldInfo;
 
-export function aboutScaffold(type: string) {
+export async function aboutScaffold(appName: string, type: string) {
+  if (!['remix'].includes(type)) await checkNodeModules(appName);
+
   const data = scaffoldInfos[type];
   if (!data) return;
   return console.log(chalk.gray`

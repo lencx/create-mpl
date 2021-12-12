@@ -29,5 +29,5 @@ export default async function mplMini(appName: string) {
     mplCmd(['@vue/cli create -p dcloudio/uni-preset-vue', appName]);
   }
 
-  aboutScaffold(scaffold);
+  aboutScaffold(appName, scaffold);
 }

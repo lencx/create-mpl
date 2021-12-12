@@ -78,5 +78,5 @@ export default async function mplWeb(appName: string) {
     console.log(`\n$ ${chalk.green(`cd ` + appName)}\n`);
   }
 
-  aboutScaffold(scaffold);
+  aboutScaffold(appName, scaffold);
 }
