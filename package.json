@@ -1,6 +1,6 @@
 {
   "name": "create-mpl",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "⚡️ Create a project in seconds!",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -32,7 +32,9 @@
     "react",
     "umi",
     "miniprogram",
-    "extension"
+    "extension",
+    "wasm",
+    "rsw"
   ],
   "repository": {
     "type": "git",

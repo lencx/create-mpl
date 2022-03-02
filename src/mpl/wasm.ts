@@ -22,7 +22,7 @@ export default async function mplElectron(appName: string) {
   const _repo = repo.split('/');
 
   dgh({
-    owner: 'metahot',
+    owner: 'rwasm',
     repo: _repo[0],
     ref: 'main',
     name: appName,
