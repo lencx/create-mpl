@@ -8,6 +8,7 @@ const argv = minimist(process.argv.slice(2));
 
 const appTypes = [
   { title: 'Web App', value: 'web' },
+  { title: 'Tauri', value: 'tauri' },
   { title: 'Mini Program', value: 'mini' },
   { title: 'WebAssembly', value: 'wasm' },
   { title: 'Extension', value: 'extension' },

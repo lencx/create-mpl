@@ -95,6 +95,13 @@ export const scaffoldInfos = {
     title: 'WebAssembly',
     link: 'https://webassembly.org/',
     description: 'WebAssembly (abbreviated Wasm) is a binary instruction format for a stack-based virtual machine. Wasm is designed as a portable compilation target for programming languages, enabling deployment on the web for client and server applications.',
+  },
+
+  // --- Tauri ---
+  tauri: {
+    title: 'Tauri',
+    link: 'https://tauri.app/',
+    description: 'Build an optimized, secure, and frontend-independent application for multi-platform deployment.',
   }
 } as ScaffoldInfo;
 
@@ -105,6 +112,7 @@ export async function aboutScaffold(appName: string, type: string) {
   if (!data) return;
   return console.log(chalk.gray`
 ${'='.repeat(12)} More ${'='.repeat(12)}
+
 [${data.title}](${chalk.cyan(data.link)})
 ${data.description}
 `);

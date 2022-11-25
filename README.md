@@ -36,6 +36,7 @@ Then follow the prompts!
   - `vue` - Vuejs
   - `svelte` - Svelte
   - `angular` - Angular
+- `tauri` - Tauri
 - `wasm` - WebAssembly
 - `mini` - Mini Program
   - `taro` - Taro

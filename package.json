@@ -1,6 +1,6 @@
 {
   "name": "create-mpl",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "description": "⚡️ Create a project in seconds!",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -28,6 +28,7 @@
     "mpl",
     "remix",
     "vite",
+    "tauri",
     "vue",
     "react",
     "umi",
